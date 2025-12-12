@@ -1,8 +1,6 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { TorchFunctionCard, TorchCategory } from "../types";
 
-const genAI = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const responseSchema: Schema = {
   type: Type.ARRAY,
   items: {
@@ -37,7 +35,9 @@ export const fetchTorchCards = async (
   searchQuery: string = ''
 ): Promise<TorchFunctionCard[]> => {
   try {
-    const model = 'gemini-2.5-flash';
+    // Initialize inside the function to avoid top-level crashes if process.env is undefined during module load
+    const genAI = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const model = 'gemini-3-pro-preview';
     
     // System instruction sets the persona and output language
     const systemInstruction = `你是一位精通 PyTorch 的深度学习导师。
