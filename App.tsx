@@ -71,8 +71,10 @@ const App: React.FC = () => {
          }
       }
 
-    } catch (err) {
-      setError("生成闪卡失败。请检查您的网络连接或 API Key。");
+    } catch (err: any) {
+      // Display specific error message if available
+      const errorMessage = err instanceof Error ? err.message : "生成闪卡失败。请检查您的网络连接或 API Key。";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
       setIsInitializing(false);
